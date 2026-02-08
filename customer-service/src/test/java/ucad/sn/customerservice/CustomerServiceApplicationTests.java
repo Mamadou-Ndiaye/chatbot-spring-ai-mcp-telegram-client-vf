@@ -1,10 +1,10 @@
-package ucad.sn.ebankmsapp;
+package ucad.sn.customerservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class EbankMsAppApplicationTests {
+class CustomerServiceApplicationTests {
 
     @Test
     void contextLoads() {
