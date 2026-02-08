@@ -1,0 +1,29 @@
+{
+  "classname" : "ucad.sn.ebankservice.services.EbankService",
+  "storedCandidateMap" : { },
+  "declaredMockMap" : {
+    "ucad.sn.ebankservice.services.EbankService#getBankAccountById#(Ljava/lang/String;)Lucad/sn/ebankservice/entities/BankAccount;" : [ {
+      "id" : "6344e733-2df0-4312-9b27-4d1a9409ddbd",
+      "name" : "mock response for call to ebankService.getBankAccountById",
+      "fieldTypeName" : "ucad.sn.ebankservice.services.EbankService",
+      "sourceClassName" : "ucad.sn.ebankservice.controllers.EbankRestController",
+      "fieldName" : "ebankService",
+      "methodName" : "getBankAccountById",
+      "whenParameter" : [ {
+        "name" : "id",
+        "type" : "ANY_OF_TYPE",
+        "value" : "java.lang.String"
+      } ],
+      "thenParameter" : [ {
+        "returnParameter" : {
+          "declaredMocks" : [ ],
+          "value" : "{\"id\": \"string\", \"createdAt\": \"2026-02-08T12:32:18.945831400\", \"balance\": \"0\", \"type\": \"string\", \"customerId\": \"0\", \"customer\": {\"id\": \"0\", \"name\": \"string\", \"email\": \"string\"}}",
+          "returnValueType" : "REAL",
+          "className" : "ucad.sn.ebankservice.entities.BankAccount"
+        },
+        "methodExitType" : "NORMAL"
+      } ],
+      "methodHashKey" : "ucad.sn.ebankservice.services.EbankService#getBankAccountById#(Ljava/lang/String;)Lucad/sn/ebankservice/entities/BankAccount;"
+    } ]
+  }
+}
