@@ -2,6 +2,8 @@ package ucad.sn.ebankservice.services;
 
 import org.springframework.stereotype.Service;
 import ucad.sn.ebankservice.entities.BankAccount;
+import ucad.sn.ebankservice.feign.CustomerRestClient;
+import ucad.sn.ebankservice.model.Customer;
 import ucad.sn.ebankservice.repository.BankAccountRepository;
 
 import java.util.Date;
@@ -11,17 +13,21 @@ import java.util.UUID;
 @Service
 public class EbankService {
 
-    private BankAccountRepository bankAccountRepository;
+    private final BankAccountRepository bankAccountRepository;
+    private final CustomerRestClient customerRestClient;
 
-    public EbankService(BankAccountRepository bankAccountRepository) {
+    public EbankService(BankAccountRepository bankAccountRepository, CustomerRestClient customerRestClient) {
         this.bankAccountRepository = bankAccountRepository;
+        this.customerRestClient = customerRestClient;
     }
 
     public List<BankAccount>  getAllBankAccounts() {
             return bankAccountRepository.findAll();
     }
     public BankAccount getBankAccountById(String id) {
-      return  bankAccountRepository.findById(id).orElseThrow(()-> new RuntimeException("Account not found"));
+      BankAccount bankAccount=  bankAccountRepository.findById(id).orElseThrow(()-> new RuntimeException("Account not found"));
+      bankAccount.setCustomer(customerRestClient.getCustomerById(bankAccount.getCustomerId()));
+      return bankAccount;
     }
 
     public List<BankAccount> findByCustomerId(Long customerId) {
@@ -30,9 +36,16 @@ public class EbankService {
 
 
     public BankAccount save(BankAccount bankAccount) {
-        bankAccount.setId(UUID.randomUUID().toString());
-        bankAccount.setCreatedAt(new Date());
-        return  bankAccountRepository.save(bankAccount);
+        try{
+            Customer customer = customerRestClient.getCustomerById(bankAccount.getCustomerId());
+            bankAccount.setId(UUID.randomUUID().toString());
+            bankAccount.setCreatedAt(new Date());
+            bankAccount.setCustomer(customer);
+            return  bankAccountRepository.save(bankAccount);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
     }
 
 
