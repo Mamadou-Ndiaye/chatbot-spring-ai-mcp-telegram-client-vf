@@ -1,5 +1,7 @@
 package ucad.sn.ebankservice.services;
 
+import org.springaicommunity.mcp.annotation.McpTool;
+import org.springaicommunity.mcp.annotation.McpToolParam;
 import org.springframework.stereotype.Service;
 import ucad.sn.ebankservice.entities.BankAccount;
 import ucad.sn.ebankservice.feign.CustomerRestClient;
@@ -21,10 +23,12 @@ public class EbankService {
         this.customerRestClient = customerRestClient;
     }
 
+    @McpTool(description = "Get all bank accounts")
     public List<BankAccount>  getAllBankAccounts() {
             return bankAccountRepository.findAll();
     }
-    public BankAccount getBankAccountById(String id) {
+    @McpTool(description = "Get a bank account by id")
+    public BankAccount getBankAccountById( @McpToolParam(description = "The id of the bank Account") String id) {
       BankAccount bankAccount=  bankAccountRepository.findById(id).orElseThrow(()-> new RuntimeException("Account not found"));
       bankAccount.setCustomer(customerRestClient.getCustomerById(bankAccount.getCustomerId()));
       return bankAccount;
@@ -35,7 +39,8 @@ public class EbankService {
     }
 
 
-    public BankAccount save(BankAccount bankAccount) {
+    @McpTool(description = "Save a new bank account")
+    public BankAccount save( @McpToolParam(description = "Save new bak account (balance,type,customerId)") BankAccount bankAccount) {
         try{
             Customer customer = customerRestClient.getCustomerById(bankAccount.getCustomerId());
             bankAccount.setId(UUID.randomUUID().toString());

@@ -1,4 +1,4 @@
-package ucad.sn.ebankservice;
+package ucad.sn;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
