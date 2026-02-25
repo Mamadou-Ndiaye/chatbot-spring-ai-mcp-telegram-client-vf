@@ -1,0 +1,22 @@
+.sidebar {
+  transition: transform 0.3s ease-in-out;
+  background-color: #c82333;   /* rouge Bootstrap danger plus foncé */
+  /* Ou : #e74c3c (rouge vif), #dc3545 (danger standard), #a71d2a (très foncé) */
+}
+.nav-link {
+  border-radius: 0.375rem;
+  margin: 0.25rem 0;
+}
+.nav-link:hover,
+.nav-link.active {
+  background-color: rgba(0, 0, 0, 0.2);  /* fond plus sombre au survol */
+}/* You can add global styles to this file, and also import other style files */
+
+
+/*
+.nav-link.active,
+.nav-link:hover {
+  background-color: #a71d2a !important;  !* rouge plus foncé pour le highlight *!
+  color: white !important;
+}
+*/

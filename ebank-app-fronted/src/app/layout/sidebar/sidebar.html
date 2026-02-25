@@ -1,0 +1,72 @@
+<div class="sidebar text-white vh-100 position-fixed top-0 start-0"
+     [style.width.px]="280"
+     [ngClass]="{
+           'd-none d-md-flex flex-column': !sidebar.isMobile(),
+           'offcanvas offcanvas-start show': sidebar.isMobile() && sidebar.isOpen()
+         }">
+
+  <!-- En-tête -->
+  <div class="d-flex align-items-center p-3 border-bottom border-secondary">
+    <span class="fs-5 fw-semibold">Mon App IA</span>
+    @if (sidebar.isMobile()) {
+      <button class="btn btn-sm btn-outline-light ms-auto"
+              (click)="sidebar.toggle()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    }
+  </div>
+
+  <!-- Navigation -->
+  <ul class="nav nav-pills flex-column mb-auto px-2">
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         routerLink="/dashboard"
+         routerLinkActive="active"
+         [routerLinkActiveOptions]="{exact: true}">
+        <i class="bi bi-speedometer2 me-2"></i> Dashboard
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         routerLink="/customers"
+         routerLinkActive="active">
+        <i class="bi bi-people me-2"></i> Clients
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         routerLink="/accounts"
+         routerLinkActive="active">
+        <i class="bi bi-bank me-2"></i> Comptes
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         routerLink="/chat"
+         routerLinkActive="active">
+        <i class="bi bi-chat-dots me-2"></i> Chat IA
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         routerLink="/settings"
+         routerLinkActive="active">
+        <i class="bi bi-gear me-2"></i> Paramètres
+      </a>
+    </li>
+  </ul>
+
+  <!-- Footer utilisateur -->
+  <div class="dropdown border-top border-secondary p-3">
+    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+       data-bs-toggle="dropdown" aria-expanded="false">
+      <img src="https://via.placeholder.com/32" class="rounded-circle me-2" width="32" height="32">
+      <strong>MND</strong>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+      <li><a class="dropdown-item" href="#">Profil</a></li>
+      <li><hr class="dropdown-divider"></li>
+      <li><a class="dropdown-item" href="#">Déconnexion</a></li>
+    </ul>
+  </div>
+</div>
