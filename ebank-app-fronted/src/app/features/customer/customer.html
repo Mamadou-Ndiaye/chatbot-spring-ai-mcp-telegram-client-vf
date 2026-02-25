@@ -1,1 +1,54 @@
-<p>customer works!</p>
+<div class="card shadow-sm">
+  <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+    <h5 class="mb-0">Liste des Clients</h5>
+    <button class="btn btn-sm btn-light">+ Ajouter</button>
+  </div>
+
+  <div class="card-body">
+    @if (loading)  {
+        <div class="text-center my-5">
+          <div class="spinner-border text-primary" role="status"></div>
+          <p>Chargement des clients...</p>
+        </div>
+    }
+
+    @else if (error) {
+      <div class="alert alert-danger">
+        {{ error }}
+      </div>
+    }
+
+    @else if (!loading && !error && customers.length === 0)   {
+        <div class="text-center text-muted my-5">
+          Aucun client trouvé
+        </div>
+    }
+
+    @else  {
+      <table  class="table table-hover">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Email</th>
+          <th>Téléphone</th>
+        </tr>
+        </thead>
+        <tbody>
+          @for (customer of customers ; track customer.id) {
+            <tr>
+              <td>{{ customer.id }}</td>
+              <td>{{ customer.name }}</td>
+              <td>{{ customer.email || '-' }}</td>
+              <td>
+                <button class="btn btn-sm btn-outline-primary">Voir</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+
+
+  </div>
+</div>
