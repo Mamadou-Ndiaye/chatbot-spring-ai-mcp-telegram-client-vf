@@ -1,0 +1,56 @@
+version: '3.9'
+
+services:
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"           # utile si tu veux aussi parler à Ollama depuis l'hôte
+    volumes:
+      - ollama-data:/root/.ollama
+    restart: unless-stopped
+    # Pour GPU si tu en as un (NVIDIA)
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+  ebank-chatbot:
+    build: .
+    container_name: ebank-chatbot
+    ports:
+      - "8058:8058"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      # On attend qu'Ollama soit prêt
+    depends_on:
+      ollama:
+        condition: service_started
+    # Important : même network pour que app → ollama:11434 fonctionne
+    networks:
+      - ai-net
+
+  # Optionnel : petite UI web pour tester Ollama directement
+  # open-webui:
+  #   image: ghcr.io/open-webui/open-webui:main
+  #   ports:
+  #     - "3000:8080"
+  #   volumes:
+  #     - open-webui:/app/backend/data
+  #   environment:
+  #     - OLLAMA_BASE_URL=http://ollama:11434
+  #   depends_on:
+  #     - ollama
+  #   restart: unless-stopped
+
+volumes:
+  ollama-data:
+    name: ollama-data
+
+networks:
+  ai-net:
+    driver: bridge
