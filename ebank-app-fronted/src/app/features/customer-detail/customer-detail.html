@@ -1,0 +1,41 @@
+@if (customerModel()) {
+<div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">Détails du client</h5>
+        <button type="button" class="btn-close btn-close-white"
+                (click)="close.emit()" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        @if (customerModel()) {
+          <div class="row mb-3">
+            <div class="col-4 fw-bold">ID :</div>
+            <div class="col-8">{{ customerModel()!.id }}</div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-4 fw-bold">Nom :</div>
+            <div class="col-8">{{ customerModel()!.name }}</div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-4 fw-bold">Email :</div>
+            <div class="col-8">{{ customerModel()!.email || 'Non renseigné' }}</div>
+          </div>
+        } @else {
+          <p class="text-center text-muted">Aucun client sélectionné</p>
+        }
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="close.emit()">
+          Fermer
+        </button>
+        <button type="button" class="btn btn-primary">
+          Modifier
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+}
