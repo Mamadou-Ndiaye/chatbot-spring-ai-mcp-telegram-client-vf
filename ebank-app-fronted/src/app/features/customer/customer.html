@@ -5,23 +5,23 @@
   </div>
 
   <div class="card-body">
-    @if (loading)  {
-        <div class="text-center my-5">
-          <div class="spinner-border text-primary" role="status"></div>
-          <p>Chargement des clients...</p>
-        </div>
-    }
-
-    @else if (error) {
-      <div class="alert alert-danger">
-        {{ error }}
+    @if (customerService.customersResource.isLoading())  {
+      <div class="text-center my-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p>Chargement des clients...</p>
       </div>
     }
 
-    @else if (!loading && !error && customers.length === 0)   {
-        <div class="text-center text-muted my-5">
-          Aucun client trouvé
-        </div>
+    @else if (customerService.customersResource.isLoading()) {
+      <div class="alert alert-danger">
+         customersResource.error()?.message || 'Problème inconnu'
+      </div>
+    }
+
+    @else if (customerService.customersResource.hasValue() && customerService.customersResource.value()!.length === 0) {
+      <div class="text-center text-muted my-5">
+        Aucun client trouvé
+      </div>
     }
 
     @else  {
@@ -35,13 +35,16 @@
         </tr>
         </thead>
         <tbody>
-          @for (customer of customers ; track customer.id) {
+          @for (customer of customerService.customersResource.value() ?? [] ; track customer.id) {
             <tr>
               <td>{{ customer.id }}</td>
               <td>{{ customer.name }}</td>
               <td>{{ customer.email || '-' }}</td>
               <td>
-                <button class="btn btn-sm btn-outline-primary">Voir</button>
+                <button class="btn btn-sm btn-outline-primary"
+                        (click)="viewCustomer(customer)">
+                  Voir
+                </button>
               </td>
             </tr>
           }
@@ -49,6 +52,12 @@
       </table>
     }
 
+    <!-- La modale détail (affichée conditionnellement) -->
+    <app-customer-detail
+      [customerModel]="selectedCustomer()"
+      (close)="closeDetail()">
+    </app-customer-detail>
 
   </div>
+
 </div>
