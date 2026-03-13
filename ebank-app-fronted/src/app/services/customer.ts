@@ -8,11 +8,16 @@ import {environment} from '../../environments/environment';
   providedIn: 'root',
 })
 export class Customer {
+      private http = inject(HttpClient);
         private apiUrl = environment.apiGatewayUrl ; // Assurez-vous que cette URL correspond à votre API Spring Boot
 
 
 
       readonly customersResource = httpResource<Customers[]>(() =>
-        `${this.apiUrl}/customers`
+        `${this.apiUrl}/CUSTOMER-SERVICE/api/customers`
       );
+
+      updateCustomer(customer: Customers): Observable<Customers> {
+        return this.http.put<Customers>(`${this.apiUrl}/CUSTOMER-SERVICE/api/customers/${customer.id}`, customer);
+      }
 }
