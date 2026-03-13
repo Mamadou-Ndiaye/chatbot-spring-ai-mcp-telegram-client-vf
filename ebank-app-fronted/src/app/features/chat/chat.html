@@ -1,1 +1,31 @@
-<p>chat works!</p>
+<div class="chat-container">
+  <div class="messages"   >
+    @for (msg of chatService.messages(); track $index) {
+      <div [class]="msg.role === 'user' ? 'msg-user' : 'msg-bot'">
+        {{ msg.text }}
+      </div>
+    }
+
+    <!-- Bulle de chargement animée -->
+    @if (loading()) {
+      <div class="msg-bot loading-bubble">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    }
+
+  </div>
+
+  <div class="input-area">
+    <input
+      #chatInput
+      type="text"
+      [value]="prompt()"
+      (input)="prompt.set(chatInput.value)"
+      (keyup.enter)="send()"
+      placeholder="Posez votre question à E-Bank..."
+    />
+    <button (click)="send()" [disabled]="loading()">Envoyer</button>
+  </div>
+</div>
