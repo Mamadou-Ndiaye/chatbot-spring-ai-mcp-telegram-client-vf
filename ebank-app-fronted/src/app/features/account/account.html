@@ -1,1 +1,59 @@
-<p>account works!</p>
+<div class="card shadow-sm">
+  <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+    <h5 class="mb-0">Liste des Comptes</h5>
+    <button class="btn btn-sm btn-light">+ Ajouter</button>
+  </div>
+
+  <div class="card-body">
+    @if (accountService.accountResource.isLoading())  {
+      <div class="text-center my-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p>Chargement des comptes...</p>
+      </div>
+    }
+
+    @else if (accountService.accountResource.isLoading()) {
+      <div class="alert alert-danger">
+        accountResource.error()?.message || 'Problème inconnu'
+      </div>
+    }
+
+    @else if (accountService.accountResource.hasValue() && accountService.accountResource.value()!.length === 0) {
+      <div class="text-center text-muted my-5">
+        Aucun client trouvé
+      </div>
+    }
+
+    @else  {
+      <table  class="table table-hover">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Type</th>
+          <th>Date</th>
+          <th>Balance</th>
+        </tr>
+        </thead>
+        <tbody>
+          @for (account of accountService.accountResource.value() ?? [] ; track account.id) {
+            <tr>
+              <td>{{ account.id }}</td>
+              <td>{{ account.type }}</td>
+              <td>{{ account.createdAt | date }}</td>
+              <td>{{ account.balance | currency }}</td>
+              <td>
+                <button class="btn btn-sm btn-outline-primary"
+                        (click)="viewAccount(account)">
+                  Voir
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+
+
+  </div>
+
+</div>
